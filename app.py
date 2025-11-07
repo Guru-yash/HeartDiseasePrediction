@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import base64
-from tensorflow.keras.models import load_model
+import tensorflow as tf
 import plotly.express as px
 
 def get_downloader_html(df):
@@ -64,7 +64,7 @@ with tab1:
                 model = pickle.load(open(modelname, 'rb'))
                 prediction = model.predict(data)
             elif modelname.endswith('.keras'):
-                model = load_model(modelname)
+                model = tf.keras.models.load_model(modelname)
                 prediction = model.predict(data.values.reshape(1, -1, 1) if 'cnn' in modelname else data.values)
                 prediction = (prediction > 0.5).astype(int)
             predictions.append(prediction)
